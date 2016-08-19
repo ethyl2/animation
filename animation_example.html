@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <style>
+
+  h1 {
+    text-align: center;
+  }
+
+  #c {
+    border: 2px solid blue;
+    margin: auto;
+    display: block;
+  }
+
+  #start, #reset {
+    margin: 1.1em auto;
+    display: block;
+  }
+  </style>
+</head>
+
+<body>
+
+  <h1>Let's Make a Circle</h1>
+
+  <button id="start" value="OFF">Start/Pause</button>
+
+  <canvas id="c" width="550" height="550"></canvas>
+
+  <button id="reset">Reset</button>
+
+  <script>
+
+    var canvas = document.getElementById("c");
+    var ctx = canvas.getContext('2d');
+    var startButton = document.getElementById("start");
+    var resetButton = document.getElementById("reset");
+
+    var _radius = 250;
+    var _angle = 0;
+    var _lastTime = Date.now();
+    var running = false;
+
+    startButton.onclick = function() {
+      toggle(this);
+      console.log(this.value);
+      if (this.value == "ON") {
+        running = true;
+        animate(canvas, ctx);
+        }
+      else {
+        console.log("Stopped");
+        running = false;
+        animate(canvas, ctx);
+      }
+    }
+
+    resetButton.onclick = function() {
+        running = false;
+        ctx.clearRect(0,0, canvas.width, canvas.height);
+        running = true;
+    }
+
+    // Toggles the passed button from OFF to ON and vice-versa.
+    function toggle(button) {
+      if (button.value == "OFF") {
+        button.value = "ON";
+      } else {
+        button.value = "OFF";
+      }
+    }
+
+    // This code to draw the circle is based off
+    // of an example used in a Udacity webcast.
+
+    function animate(canvas, ctx) {
+
+      //Set center
+      var centerX = canvas.width/2;
+      var centerY = canvas.height/2;
+
+      //Get dt (delta time for smooth animation/
+      //animation normalization)
+      var now = Date.now(),
+        dt = (now - _lastTime)/1000.0;
+
+      _angle += 1 - dt;
+
+      //Convert degrees to radians
+      var rad = _angle * Math.PI/180;
+
+      //Create x, y coords on circumf. of circle with radius _radius
+      var x1 = centerX + Math.cos(rad) * _radius;
+      var y1 = centerY + Math.sin(rad) * _radius;
+
+      var opprad = rad - Math.PI;
+      var x2 = centerX + Math.cos(opprad) * _radius;
+      var y2 = centerY + Math.sin(opprad) * _radius;
+
+      //Color variables
+      var r = Math.floor(Math.random() * 255);
+      var g = Math.floor(Math.random() * 255);
+      var b = Math.floor(Math.random() * 255);
+
+      ctx.strokeStyle = "rgba(" + r + "," + g + "," + b + ",25)";
+
+      //Comment out the line below to make a solid circle:
+      //ctx.clearRect(0,0, canvas.width, canvas.height);
+
+      ctx.lineWidth = 5;
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+      ctx.closePath();
+
+      _lastTime = now;
+
+      if (running) {
+        window.requestAnimationFrame(function() {
+          animate(canvas, ctx);
+        });
+      }
+    }
+
+  </script>
+  </body>
+</html>
