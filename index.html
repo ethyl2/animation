@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Animation Examples</title>
+
+  <style>
+    body {
+      margin: auto;
+      display: block;
+      text-align: center;
+    }
+
+    #c {
+      border: 2px solid #000000;
+    }
+
+  </style>
+</head>
+
+<body>
+  <h1>My Animation Examples</h1>
+  <canvas id="c" width="500" height="500"></canvas>
+  <h3><a href="animation_example.html">Second example</a></h3>
+<script>
+
+  var canvas = document.getElementById("c");
+  var context = canvas.getContext('2d');
+  var r = 255;
+
+  function animate() {
+    requestAnimationFrame(animate);
+    draw();
+  }
+
+  function draw() {
+    var time = new Date().getTime() * 0.002;
+    var xPos = Math.sin(time) * 175 + 250; //*96
+    var yPos = Math.cos(time * 0.9) * 175 + 250; //*96
+
+    //Color variables
+
+    var r = Math.floor(Math.random() * 255);
+    var g = Math.floor(Math.random() * 255);
+    var b = Math.floor(Math.random() * 255);
+
+    context.fillStyle = "rgba(" + r + "," + g + "," + b + ",25)";
+    context.beginPath();
+    context.arc(xPos, yPos, 10, 0, 2*Math.PI, true);
+    context.closePath();
+    context.fill();
+    var oldXPos = xPos;
+
+  }
+
+  animate();
+
+</script>
+</body>
+
+</html>
