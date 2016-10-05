@@ -22,35 +22,63 @@
 <body>
   <h1>My Animation Examples</h1>
   <canvas id="c" width="500" height="500"></canvas>
+  <br>
+  <button id="random">Random</button>
+
   <h3><a href="animation_example.html">Second example</a></h3>
 <script>
 
   var canvas = document.getElementById("c");
   var context = canvas.getContext('2d');
-  var r = 255;
+  var randomButton = document.getElementById("random");
+  var r = 100;
+  var g = 100;
+  var b = 100;
+  var random = false;
+
+  randomButton.onclick = function() {
+    toggle(this);
+    if (this.value == "ON") {
+      random = true;
+    }
+    else {
+      random = false;
+    }
+  }
+
+  // Toggles the passed button from OFF to ON and vice-versa.
+  function toggle(button) {
+    if (button.value == "OFF") {
+      button.value = "ON";
+    } else {
+      button.value = "OFF";
+    }
+  }
 
   function animate() {
     requestAnimationFrame(animate);
     draw();
   }
 
+  var oldXPos = Math.sin(new Date().getTime() * 0.002) * 175 + 250;
+
   function draw() {
     var time = new Date().getTime() * 0.002;
-    var xPos = Math.sin(time) * 175 + 250; //*96
-    var yPos = Math.cos(time * 0.9) * 175 + 250; //*96
+    var xPos = Math.sin(time) * 175 + 250;
+    var yPos = Math.cos(time * 0.9) * 175 + 250;
 
-    //Color variables
-
-    var r = Math.floor(Math.random() * 255);
-    var g = Math.floor(Math.random() * 255);
-    var b = Math.floor(Math.random() * 255);
+    if (random) {
+      r = Math.floor(Math.random() * 255);
+      g = Math.floor(Math.random() * 255);
+      b = Math.floor(Math.random() * 255);
+    }
 
     context.fillStyle = "rgba(" + r + "," + g + "," + b + ",25)";
     context.beginPath();
     context.arc(xPos, yPos, 10, 0, 2*Math.PI, true);
     context.closePath();
     context.fill();
-    var oldXPos = xPos;
+    oldXPos = xPos;
 
   }
 
