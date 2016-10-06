@@ -25,18 +25,25 @@
   <br>
   <button id="random" value="OFF">Random color change</button>
   <button id="reset">Reset</button>
+  <button id="pause" value="OFF">Pause/Play</button>
 
+  <hr>
   <h3><a href="animation_example.html">Second example</a></h3>
+
 <script>
 
   var canvas = document.getElementById("c");
   var context = canvas.getContext('2d');
   var randomButton = document.getElementById("random");
   var resetButton = document.getElementById("reset");
+  var pauseButton = document.getElementById("pause");
+
   r = Math.floor(Math.random() * 255);
   g = Math.floor(Math.random() * 255);
   b = Math.floor(Math.random() * 255);
+
   var random = false;
+  var pause = false;
 
   randomButton.onclick = function() {
     toggle(this);
@@ -51,6 +58,18 @@
   resetButton.onclick = function() {
     context.clearRect(0,0, canvas.width, canvas.height);
   }
+
+  pauseButton.onclick = function() {
+    toggle(this);
+    if (this.value == "ON") {
+      pause = true;
+    }
+    else {
+      pause = false;
+      animate();
+    }
+  }
+
   // Toggles the passed button from OFF to ON and vice-versa.
   function toggle(button) {
     if (button.value == "OFF") {
@@ -61,8 +80,10 @@
   }
 
   function animate() {
-    requestAnimationFrame(animate);
-    draw();
+    if (pause == false) {
+      requestAnimationFrame(animate);
+      draw();
+    }
   }
 
   function draw() {
@@ -81,7 +102,6 @@
     context.arc(xPos, yPos, 10, 0, 2*Math.PI, true);
     context.closePath();
     context.fill();
-
   }
 
   animate();
