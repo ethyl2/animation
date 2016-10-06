@@ -26,6 +26,8 @@
   <button id="random" value="OFF">Random color change</button>
   <button id="reset">Reset</button>
   <button id="pause" value="OFF">Pause/Play</button>
+  <br>
+  <a href="#" class="button" id="btn-download" download="my_crazy_knot.png">Download</a>
 
   <hr>
   <h3><a href="animation_example.html">Second example</a></h3>
@@ -37,6 +39,7 @@
   var randomButton = document.getElementById("random");
   var resetButton = document.getElementById("reset");
   var pauseButton = document.getElementById("pause");
+  var downloadButton = document.getElementById('btn-download');
 
   r = Math.floor(Math.random() * 255);
   g = Math.floor(Math.random() * 255);
@@ -69,6 +72,11 @@
       animate();
     }
   }
+
+  downloadButton.addEventListener('click', function (e) {
+    var dataURL = canvas.toDataURL('image/png');
+    downloadButton.href = dataURL;
+  });
 
   // Toggles the passed button from OFF to ON and vice-versa.
   function toggle(button) {
