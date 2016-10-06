@@ -23,7 +23,8 @@
   <h1>My Animation Examples</h1>
   <canvas id="c" width="500" height="500"></canvas>
   <br>
-  <button id="random">Random</button>
+  <button id="random" value="OFF">Random color change</button>
+  <button id="reset">Reset</button>
 
   <h3><a href="animation_example.html">Second example</a></h3>
 <script>
@@ -31,9 +32,10 @@
   var canvas = document.getElementById("c");
   var context = canvas.getContext('2d');
   var randomButton = document.getElementById("random");
-  var r = 100;
-  var g = 100;
-  var b = 100;
+  var resetButton = document.getElementById("reset");
+  r = Math.floor(Math.random() * 255);
+  g = Math.floor(Math.random() * 255);
+  b = Math.floor(Math.random() * 255);
   var random = false;
 
   randomButton.onclick = function() {
@@ -46,6 +48,9 @@
     }
   }
 
+  resetButton.onclick = function() {
+    context.clearRect(0,0, canvas.width, canvas.height);
+  }
   // Toggles the passed button from OFF to ON and vice-versa.
   function toggle(button) {
     if (button.value == "OFF") {
@@ -59,8 +64,6 @@
     requestAnimationFrame(animate);
     draw();
   }
-
-  var oldXPos = Math.sin(new Date().getTime() * 0.002) * 175 + 250;
 
   function draw() {
     var time = new Date().getTime() * 0.002;
@@ -78,7 +81,6 @@
     context.arc(xPos, yPos, 10, 0, 2*Math.PI, true);
     context.closePath();
     context.fill();
-    oldXPos = xPos;
 
   }
 
